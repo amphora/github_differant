@@ -1,0 +1,171 @@
+!!! 1.1
+%html(xmlns="http://www.w3.org/1999/xhtml")
+  %head
+    %meta(http-equiv="content-type" content="text/html; charset=utf-8")
+    %title== #{@title}
+  %body
+    %style(type="text/css")
+      /
+        :plain
+          #msg dl.meta { border: 1px #006 solid; background: #369; padding: 6px; color: #fff; }
+          #msg dl.meta dt { float: left; width: 6em; font-weight: bold; }
+          #msg dt:after { content:':';}
+          #msg dl, #msg dt, #msg ul, #msg li, #header, #footer, #logmsg { font-family: verdana,arial,helvetica,sans-serif; font-size: 10pt;  }
+          #msg dl a { font-weight: bold}
+          #msg dl a:link    { color:#fc3; }
+          #msg dl a:active  { color:#ff0; }
+          #msg dl a:visited { color:#cc6; }
+          h3 { font-family: verdana,arial,helvetica,sans-serif; font-size: 10pt; font-weight: bold; }
+          #msg pre { overflow: auto; background: #ffc; border: 1px #fa0 solid; padding: 6px; }
+          #logmsg { background: #ffc; border: 1px #fa0 solid; padding: 1em 1em 0 1em; }
+          #logmsg p, #logmsg pre, #logmsg blockquote { margin: 0 0 1em 0; }
+          #logmsg p, #logmsg li, #logmsg dt, #logmsg dd { line-height: 14pt; }
+          #logmsg h1, #logmsg h2, #logmsg h3, #logmsg h4, #logmsg h5, #logmsg h6 { margin: .5em 0; }
+          #logmsg h1:first-child, #logmsg h2:first-child, #logmsg h3:first-child, #logmsg h4:first-child, #logmsg h5:first-child, #logmsg h6:first-child { margin-top: 0; }
+          #logmsg ul, #logmsg ol { padding: 0; list-style-position: inside; margin: 0 0 0 1em; }
+          #logmsg ul { text-indent: -1em; padding-left: 1em; }#logmsg ol { text-indent: -1.5em; padding-left: 1.5em; }
+          #logmsg > ul, #logmsg > ol { margin: 0 0 1em 0; }
+          #logmsg pre { background: #eee; padding: 1em; }
+          #logmsg blockquote { border: 1px solid #fa0; border-left-width: 10px; padding: 1em 1em 0 1em; background: white;}
+          #logmsg dl { margin: 0; }
+          #logmsg dt { font-weight: bold; }
+          #logmsg dd { margin: 0; padding: 0 0 0.5em 0; }
+          #logmsg dd:before { content:'\00bb';}
+          #logmsg table { border-spacing: 0px; border-collapse: collapse; border-top: 4px solid #fa0; border-bottom: 1px solid #fa0; background: #fff; }
+          #logmsg table th { text-align: left; font-weight: normal; padding: 0.2em 0.5em; border-top: 1px dotted #fa0; }
+          #logmsg table td { text-align: right; border-top: 1px dotted #fa0; padding: 0.2em 0.5em; }
+          #logmsg table thead th { text-align: center; border-bottom: 1px solid #fa0; }
+          #logmsg table th.Corner { text-align: left; }
+          #logmsg hr { border: none 0; border-top: 2px dashed #fa0; height: 1px; }
+          #header, #footer { color: #fff; background: #636; border: 1px #300 solid; padding: 6px; }
+          #patch { width: 100%; }
+          #patch h4 {font-family: verdana,arial,helvetica,sans-serif;font-size:10pt;padding:8px;background:#369;color:#fff;margin:0;}
+          #patch .propset h4, #patch .binary h4 {margin:0;}
+          #patch pre {padding:0;line-height:1.2em;margin:0;}
+          #patch .diff {width:100%;background:#eee;padding: 0 0 10px 0;overflow:auto;}
+          #patch .propset .diff, #patch .binary .diff  {padding:10px 0;}
+          #patch span {display:block;padding:0 10px;}
+          #patch .modfile, #patch .addfile, #patch .delfile, #patch .propset, #patch .binary, #patch .copfile {border:1px solid #ccc;margin:10px 0;}
+          #patch ins {background:#dfd;text-decoration:none;display:block;padding:0 10px;}
+          #patch del {background:#fdd;text-decoration:none;display:block;padding:0 10px;}
+          #patch .lines, .info {color:#888;background:#fff;}
+
+#msg
+  %dl.meta
+    %dt Revision
+    %dd== #{@commit.revision}
+    %dt Author
+    %dd== #{@commit.author.name} [#{@commit.author.email}]
+    %dt Date
+    %dd== #{@commit.authored_date}
+    %dt URL
+    %dd== #{@commit.url}
+    
+  %h3 Commit Message
+  %pre== #{@commit.message}
+
+  - unless @commit.modified.empty?
+    %h3 Modified Paths
+    %ul
+      - @commit.modified.each do |file|
+        %li
+          %a{:href=>'#'}== #{file["filename"]}
+  
+  - unless @commit.added.empty?
+    %h3 Added Paths
+    %ul
+      - @commit.added.each do |file|
+        %li
+          %a{:href=>"#"}== #{file["filename"]}
+            
+  - unless @commit.removed.empty?
+    %h3 Removed Paths
+    %ul
+      - @commit.removed.each do |file|
+        %li
+          %a{:href=>"#"}== #{file["filename"]}
+
+#patch
+  %h3 Diff
+  
+  - @commit.modified.each do |mod|
+    %a{:id => "#"}
+    .modfile
+      %h4
+        Modified:
+        #{mod["filename"]}
+        
+      %pre.diff
+        :ruby
+          html = "<span>"
+          html << "<span class=\"info\">#{mod["filename"]}</span>"
+          
+          mod["diff"].each_line do |line|
+            line.chomp!
+            case line
+            when /^@@.*@@/
+              html << "<span class=\"lines\">#{line}</span>"
+            when /^-/
+              html << "<del>#{line}</del>"
+            when /^\+/
+              html << "<ins>#{line}</ins>"
+            else
+              html << "<span class=\"cx\">#{line}</span>"
+            end
+          end if mod["diff"]
+          
+          html << "</span>"
+          
+          $stdout << html
+          
+  - @commit.added.each do |add|
+    %a{:id => "#"}
+    .addfile
+      %h4
+        Added:
+        #{add["filename"]}
+        
+      %pre.diff
+        :ruby
+          html = "<span>"
+          html << "<span class=\"info\">#{add["filename"]}</span>"
+          html << "<ins>"
+          
+          add["diff"].each_line do |line|
+            case line
+            when /^@@.*@@/
+              html << "<span class=\"lines\">#{line.chomp}</span>"
+            else
+              html << "#{line}"
+            end
+          end if add["diff"]
+        
+          html << "</ins></span>"
+        
+          $stdout << html
+
+  - @commit.removed.each do |del|
+    %a{:id => "#"}
+    .delfile
+      %h4
+        Deleted:
+        #{del["filename"]}
+
+      %pre.diff
+        :ruby
+          html = "<span>"
+          html << "<span class=\"info\">#{del["filename"]}</span>"
+          html << "<del>"
+
+          del["diff"].each_line do |line|
+            case line
+            when /^@@.*@@/
+              html << "<span class=\"lines\">#{line.chomp}</span>"
+            else
+              html << "#{line}"
+            end
+          end if del["diff"]
+
+          html << "</del></span>"
+
+          $stdout << html

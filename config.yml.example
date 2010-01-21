@@ -1,0 +1,19 @@
+# for sending mail
+:smtp:
+  :host: localhost
+  :port: 25
+  :domain: localhost
+  :auth: :login
+  :user: 
+  :password:
+
+# recipients
+:mail:
+  :to:
+    - someone@example.com
+    - someone_else@example.com
+  :from: git-post-receive
+  
+:github:
+  :login: githubuser
+  :token: githubtoken

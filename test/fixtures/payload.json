@@ -1,0 +1,53 @@
+{
+  "before": "6fa059e804095dbc878bb91895522eadd8fadb8f",
+  "after": "15e4feb062876836d6a74120733bdcedab1e21fb",
+  "ref": "refs/heads/master",
+  "commits": 
+  [
+    { 
+      "id": "9921e70e43bf75355f36e2ade91eb6eb2fe63e82",
+      "message": "Use DateTime.parse for dates",
+      "timestamp": "2009-11-07T22:32:58-08:00",
+      "url": "http://github.com/elskwid/brical/commit/9921e70e43bf75355f36e2ade91eb6eb2fe63e82",
+      "added": [],
+      "modified": ["lib/eb_event.rb","test/eb_event_test.rb"],
+      "removed": [],
+      "author":
+        { 
+          "email":"elskwid@gmail.com",
+          "name":"El Skwid (Don Morrison)" 
+        }
+    },
+    { 
+      "id": "15e4feb062876836d6a74120733bdcedab1e21fb",
+      "message": "Add timezone property",
+      "timestamp": "2009-11-07T23:06:52-08:00",
+      "url": "http://github.com/elskwid/brical/commit/15e4feb062876836d6a74120733bdcedab1e21fb",
+      "added": [],
+      "modified": ["lib/brical.rb"],
+      "removed": [],
+      "author":
+        { 
+          "email":"elskwid@gmail.com",
+          "name":"El Skwid (Don Morrison)" 
+        }
+    }
+  ],
+  "repository":
+    { 
+      "name": "brical",
+      "description": "A little sinatra based web-service to convert eventbrite atom feeds to iCal",
+      "watchers": 1,
+      "open_issues": 0,
+      "url": "http://github.com/elskwid/brical",
+      "fork": false,
+      "forks": 0,
+      "private": false,
+      "homepage": "",
+      "owner":
+        { 
+          "email":"elskwid@gmail.com",
+          "name":"elskwid" 
+        }
+    }
+}
