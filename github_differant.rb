@@ -29,6 +29,10 @@ module GithubDifferant
       handle_payload params["payload"]
     end
 
+    # nagios health check
+    get '/check_health' do
+      'ALLOK'
+    end
     
     private
 
